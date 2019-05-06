@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Minha engine</title>
+	<style>
+		canvas {
+			position :absolute;
+			top: 0px;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			margin: auto;
+
+		}
+	</style>
+</head>
+<body>
+
+	<script>
+		
+		//variáveis de jogo
+		var canvas,ctx,ALTURA, LARGURA, frames = 0, maxPulos = 3,
+
+		chao = {
+          y: 550,
+          altura :50,
+          
+
+          desenha: function (){
+
+          	ctx.fillStyle = this.cor;
+          	ctx.fillRect(0,this.y,LARGURA,this.altura);
+          }
+
+		},
+
+		obstaculos = {
+
+			-obs: [],
+			cor: [#DCDCDC,#363636,#4f4f4f,#808080,#A9A9A9,#D3D3D3],
+
+			insere: function(){
+				this.-obs.push({
+					x: LARGURA,
+					largura: 30 + Math.floor (20 * Math.random)),
+				    altura : 30 + Math.floor (102 * Math.random)),
+cor:
+
+				});
+
+		
+		
+
+		bloco = {
+
+			x: 50,
+			y: 0,
+			altura: 50,
+			largura: 50,
+			cor: "#FFFAF0",
+			gravidade: 1.0,
+			velocidade:0,
+			forcaDoPulo:25,
+			qntPulos:0,
+
+
+			atualiza: function(){
+
+				this.velocidade += this.gravidade;
+				this.y += this.velocidade;
+
+				if (this.y > chao.y - this.altura){
+					this.y = chao.y - this.altura;
+					this.qntPulos=0;
+				}
+
+
+			},
+
+			pula: function(){
+
+				if (this.qntPulos < maxPulos){
+				
+				this.velocidade = -this.forcaDoPulo;
+				this.qntPulos ++;
+
+                 }
+
+			},
+
+			desenha: function(){
+ctx.fillStyle = this.cor;
+ctx.fillRect(this.x,this.y,this.largura, this.altura);
+
+			}
+
+		};
+
+
+
+            function clique(event) {
+			bloco.pula();
+		}
+
+            function main(){
+
+			ALTURA = window.innerHeight;
+			LARGURA = window.innerWidth;
+             
+            
+			if (LARGURA >= 500) {
+				LARGURA = 600;
+				ALTURA = 600;
+			}
+
+			canvas = document.createElement("canvas");
+			canvas.width = LARGURA;
+			canvas.height = ALTURA;
+			canvas.style.border = "5px solid #C0C0C0";
+
+			ctx = canvas.getContext ("2d");
+
+			document.body.appendChild(canvas);
+
+			document.addEventListener("mousedown", clique);
+
+			roda();
+
+			
+			}
+function roda(){
+
+				atualiza();
+				desenha();
+				window.requestAnimationFrame (roda);
+			}
+
+		    function atualiza (){
+              frames ++;
+
+              bloco.atualiza();
+		}
+
+		    function desenha (){
+			ctx.fillStyle = "#000000";
+
+			ctx.fillRect(0, 0,LARGURA, ALTURA);
+
+			chao.desenha()
+			bloco.desenha()
+
+
+		}
+
+
+		//inicializa o jogo
+		 
+               
+
+     main();        
+
+
+	 </script>
+         
+</body>
+</html>
